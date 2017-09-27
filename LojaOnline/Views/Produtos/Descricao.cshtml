@@ -1,0 +1,28 @@
+﻿@model LojaOnline.Models.Produto
+
+@{
+    ViewBag.Title = "Descricao";
+}
+
+
+@Html.Partial("_Menu")
+
+<div class="container">
+    <div class="row">
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9">
+            <div class="card mt-4">
+                <img class="card-img-top img-fluid" src="@Url.Content(Model.Imagem)" alt="">
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Nome</h3>
+                    <h4>@Model.Preco€</h4>
+                    <p class="card-text">@Model.descricao</p>
+                    <p>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AdicionarProduto", "Compras",new {id = Model.ProdutoID } )'">Comprar</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-lg-9 -->
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<LojaOnline.Models.Produto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<p>
+    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Create", "Produtos")'">Novo Produto</button>
+</p>
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Imagem)</th>
+                        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+                        <th>@Html.DisplayNameFor(model => model.Preco)</th>
+                        <th>@Html.DisplayNameFor(model => model.Stock)</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="@Url.Content(item.Imagem)" height="60" width="60" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Preco)€
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ProdutoID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ProdutoID })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

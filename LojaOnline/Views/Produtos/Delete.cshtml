@@ -1,0 +1,34 @@
+﻿@model LojaOnline.Models.Produto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Tem a certeza que pertende apagar este produto?</h3>
+<div>
+
+    <table class="table table-striped table-bordered table-hover text-center">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Imagem)</th>
+                <th>@Html.DisplayNameFor(model => model.Nome)</th>
+            </tr>
+
+            <tr>
+                <td>
+                    <img src="@Url.Content(Model.Imagem)" height="60" width="60" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Nome)
+                </td>
+            </tr>
+</table>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Voltar", "Index")
+        </div>
+    }
+</div>
