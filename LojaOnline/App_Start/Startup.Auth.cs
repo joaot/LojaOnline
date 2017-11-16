@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using LojaOnline.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LojaOnline
 {
@@ -14,6 +15,7 @@ namespace LojaOnline
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            createRolesUser();
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
@@ -34,7 +36,7 @@ namespace LojaOnline
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -44,6 +46,82 @@ namespace LojaOnline
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+        }
+
+
+        //método que cria os utilizadores sempre que a aplicação é iniciada
+         private void createRolesUser()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            //Se não existir nenhum adminitrador, cria um novo
+            if (!roleManager.RoleExists("Admin"))
+            {
+                //cria o role Admin
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Admin";
+                roleManager.Create(role);
+
+                //Criação do utlizador Admin
+                var user = new ApplicationUser
+                {
+                    UserName = "admin@admin.com",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    NomeProprio = "João",
+                    Apelido = "Teixeira",
+                    NIF = "123456789",
+                    Morada = "Rua do Pombal",
+                    CodPostal = "2080-111",
+                    Localidade = "Almeirim",
+                    Contacto = "123456789",
+                    Email = "admin@admin.com",
+                };
+
+                string userPass = "Admin123#";
+                var create = UserManager.Create(user, userPass);
+
+                //Adicionar o user criado anteriormente à role Admin
+                if (create.Succeeded)
+                {
+                    var result = UserManager.AddToRole(user.Id, "Admin");
+                }
+            }
+
+            //Se não existir nenhum adminitrador, cria um novo
+            if (!roleManager.RoleExists("Cliente"))
+            {
+                //cria o role Admin
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Cliente";
+                roleManager.Create(role);
+
+                //Criação do utlizador Admin
+                var user = new ApplicationUser
+                {
+                    UserName = "jose@gmail.com",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    NomeProprio = "José",
+                    Apelido = "Casinhas",
+                    NIF = "123456789",
+                    Morada = "Rua do Pombal",
+                    CodPostal = "2080-111",
+                    Localidade = "Almeirim",
+                    Contacto = "123456789",
+                    Email = "jose@gmail.com",
+                };
+
+                string userPass = "Jose123#";
+                var create = UserManager.Create(user, userPass);
+
+                //Adicionar o user criado anteriormente à role Cliente
+                if (create.Succeeded)
+                {
+                    var result = UserManager.AddToRole(user.Id, "Cliente");
+                }
+            }
+        }
 
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
@@ -65,4 +143,4 @@ namespace LojaOnline
             //});
         }
     }
-}
+

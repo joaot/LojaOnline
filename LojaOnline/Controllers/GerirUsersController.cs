@@ -44,9 +44,7 @@ namespace LojaOnline.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Editar([Bind(Include = "Id,NomeProprio,Apelido,NIF,Morada,CodPostal,Localidade,Contacto,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,UserName")] ApplicationUser user)
-        {
-
-            
+        {           
             if (ModelState.IsValid)
             {              
                 db.Entry(user).State = EntityState.Modified;             

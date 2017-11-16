@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LojaOnline.Models;
 using System.IO;
+using PagedList;
 
 namespace LojaOnline.Controllers
 {
@@ -16,10 +17,47 @@ namespace LojaOnline.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Produtos
-        public ActionResult Index()
+        public ViewResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
-            var produtos = db.Produtos.Include(p => p.Categoria);
-            return View(produtos.ToList());
+            ViewBag.currentSort = sortOrder;
+            ViewBag.Nome = sortOrder == "Nome";
+            ViewBag.Preco = sortOrder == "Preco";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var produtos = from p in db.Produtos
+                           select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                produtos = produtos.Where(p => p.Nome.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "Nome":
+                    produtos = produtos.OrderByDescending(p => p.Nome);
+                    break;
+                case "Preco":
+                    produtos = produtos.OrderByDescending(p => p.Preco);
+                    break;
+                default:
+                    produtos = produtos.OrderByDescending(p => p.Nome);
+                    break;
+            }
+
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            return View(produtos.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Produtos/Details/5
@@ -169,21 +207,5 @@ namespace LojaOnline.Controllers
             
             return View();
         }
-
-        //public ActionResult Sort(string sortOrder)
-        //{
-        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-        //    var cenas = from s in db.Produtos
-        //                select s;
-
-        //    switch (sortOrder)
-        //    {
-        //        case "name_desc":
-        //            cenas = cenas.OrderByDescending(s => s.Nome);
-        //            break;
-        //    }
-
-        //    return View(cenas.ToList());
-        //}
     }
 }

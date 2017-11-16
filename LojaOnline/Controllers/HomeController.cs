@@ -9,13 +9,13 @@ using System.Web.Mvc;
 
 namespace LojaOnline.Controllers
 {
+
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index()
         {
-            //var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            //var currentUser = manager.FindById(User.Identity.GetUserId());
-            //ViewBag.Nome = currentUser.NomeProprio + currentUser.Apelido;
             return View();
         }
 
@@ -31,6 +31,13 @@ namespace LojaOnline.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+
+        //retorna uma lista de categorias
+        public ActionResult Menu()
+        {
+            return View(db.Categorias.ToList());
         }
     }
 }

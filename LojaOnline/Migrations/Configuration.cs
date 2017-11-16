@@ -17,59 +17,59 @@ namespace LojaOnline.Migrations
 
         protected override void Seed(LojaOnline.Models.ApplicationDbContext context)
         {
-            string[] roles = new string[] { "Admin", "Cliente" };
+            //    string[] roles = new string[] { "Admin", "Cliente" };
 
-            foreach (string role in roles)
-            {
-                var roleStore = new RoleStore<IdentityRole>(context);
+            //    foreach (string role in roles)
+            //    {
+            //        var roleStore = new RoleStore<IdentityRole>(context);
 
-                if (!context.Roles.Any(r => r.Name == role))
-                {
-                    roleStore.CreateAsync(new IdentityRole(role));
-                }
-            }
+            //        if (!context.Roles.Any(r => r.Name == role))
+            //        {
+            //            roleStore.CreateAsync(new IdentityRole(role));
+            //        }
+            //    }
 
 
-            //----------------------Adicionar administrador----------------------//
-            var passwordHash = new PasswordHasher();
-            var store = new UserStore<ApplicationUser>(context);
-            var manager = new UserManager<ApplicationUser>(store);
+            ////----------------------Adicionar administrador----------------------//
+            //var passwordHash = new PasswordHasher();
+            //var store = new UserStore<ApplicationUser>(context);
+            //var manager = new UserManager<ApplicationUser>(store);
 
-            var userAdmin = new ApplicationUser {
-                UserName = "admin@admin.com",
-                PasswordHash = passwordHash.HashPassword("Admin123#"),
-                SecurityStamp = Guid.NewGuid().ToString(),
-                NomeProprio = "João",
-                Apelido = "Teixeira",
-                NIF = "123456789",
-                Morada = "Rua do Pombal",
-                CodPostal = "2080-111",
-                Localidade = "Almeirim",
-                Contacto = "123456789",
-                Email = "admin@admin.com",
-            };
+            //var userAdmin = new ApplicationUser {
+            //    UserName = "admin@admin.com",
+            //    PasswordHash = passwordHash.HashPassword("Admin123#"),
+            //    SecurityStamp = Guid.NewGuid().ToString(),
+            //    NomeProprio = "João",
+            //    Apelido = "Teixeira",
+            //    NIF = "123456789",
+            //    Morada = "Rua do Pombal",
+            //    CodPostal = "2080-111",
+            //    Localidade = "Almeirim",
+            //    Contacto = "123456789",
+            //    Email = "admin@admin.com",
+            //};
 
-            manager.Create(userAdmin);
-            manager.AddToRole(userAdmin.Id, "Admin");
+            //manager.Create(userAdmin);
+            //manager.AddToRole(userAdmin.Id, "Admin");
 
-            //----------------------Adicionar um user cliente----------------------//
-            var userCliente = new ApplicationUser
-            {
-                UserName = "jose@gmail.com",
-                PasswordHash = passwordHash.HashPassword("Jose123#"),
-                SecurityStamp = Guid.NewGuid().ToString(),
-                NomeProprio = "José",
-                Apelido = "Teixeira",
-                NIF = "123456789",
-                Morada = "Rua do Pombal",
-                CodPostal = "2080-111",
-                Localidade = "Almeirim",
-                Contacto = "123456789",
-                Email = "jose@gmail.com",
-            };
+            ////----------------------Adicionar um user cliente----------------------//
+            //var userCliente = new ApplicationUser
+            //{
+            //    UserName = "jose@gmail.com",
+            //    PasswordHash = passwordHash.HashPassword("Jose123#"),
+            //    SecurityStamp = Guid.NewGuid().ToString(),
+            //    NomeProprio = "José",
+            //    Apelido = "Teixeira",
+            //    NIF = "123456789",
+            //    Morada = "Rua do Pombal",
+            //    CodPostal = "2080-111",
+            //    Localidade = "Almeirim",
+            //    Contacto = "123456789",
+            //    Email = "jose@gmail.com",
+            //};
 
-            manager.Create(userCliente);
-            manager.AddToRole(userCliente.Id, "Cliente");
+            //manager.Create(userCliente);
+            //manager.AddToRole(userCliente.Id, "Cliente");
 
             //----------------------Adiciona categorias de produtos----------------------//
 
@@ -78,8 +78,8 @@ namespace LojaOnline.Migrations
                 new Categoria {Nome = "Processador" },
                 new Categoria {Nome = "Caixas" },
                 new Categoria {Nome = "Placas Gráficas" },
-                new Categoria {Nome = "Ratos" },
-                new Categoria {Nome = "Teclados" }
+                new Categoria {Nome = "Ratos" }
+                //new Categoria {Nome = "Teclados" }
             };
 
             categorias.ForEach(cc => context.Categorias.AddOrUpdate(c => c.Nome, cc));
