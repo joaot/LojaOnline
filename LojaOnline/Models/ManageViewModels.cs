@@ -41,20 +41,20 @@ namespace LojaOnline.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Introduza a palavra passe atual.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Palavra passe atual")]
         public string OldPassword { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Introduza a nova palavra passe.")]
+        [StringLength(100, ErrorMessage = "A password deverá conter no minimo 8 caracteres bem como maísculas, números e caracteres especiais.", MinimumLength = 8)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Nova palavra passe")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Confirmar nova palavra passe")]
+        [Compare("NewPassword", ErrorMessage = "A palavra passe e a confirmação devem ser iguais.")]
         public string ConfirmPassword { get; set; }
     }
 

@@ -10,7 +10,7 @@
 
 <div class="container">
     <div class="row">
-        @Html.Partial("_Menu")
+        @Html.Action("Menu","Index")
         <div class="col-md-9">
             <div class="row carousel-holder">
                 <div class="col-md-12">
@@ -41,42 +41,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4 col-lg-4 col-md-4">
-                    <div class="thumbnail">
-                        <img src="~/Imagens/i3.jpg" alt="">
-                        <div class="caption">
-                            <h4 class="pull-right">24.99€</h4>
-                            <h4>
-                                <a>i3-6300</a>
-                            </h4>
-                            <p><button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AdicionarProduto", "Compras",new {id = 1 } )'">Comprar</button></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-lg-4 col-md-4">
-                    <div class="thumbnail">
-                        <img src="~/Imagens/i5.jpg" alt="">
-                        <div class="caption">
-                            <h4 class="pull-right">24.99€</h4>
-                            <h4>
-                                <a href="#">i5-6600k</a>
-                            </h4>
-                            <p> <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AdicionarProduto", "Compras",new {id = 2 } )'">Comprar</button></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-lg-4 col-md-4">
-                    <div class="thumbnail">
-                        <img src="~/Imagens/i7.jpg" alt="">
-                        <div class="caption">
-                            <h4 class="pull-right">24.99€</h4>
-                            <h4>
-                                <a href="#">i7-6700k</a>
-                            </h4>
-                            <p><button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AdicionarProduto", "Compras",new {id = 3 } )'">Comprar</button></p>
-                        </div>
-                    </div>
-                </div>
+            @Html.Action("ProdutosRecentes", "Index")
             </div>
         </div>
     </div>

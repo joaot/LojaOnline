@@ -73,9 +73,7 @@ namespace LojaOnline
                     Apelido = "Teixeira",
                     NIF = "123456789",
                     Morada = "Rua do Pombal",
-                    CodPostal = "2080-111",
-                    Localidade = "Almeirim",
-                    Contacto = "123456789",
+                    CodPostal = "2080-111 Almeirim",
                     Email = "admin@admin.com",
                 };
 
@@ -106,9 +104,7 @@ namespace LojaOnline
                     Apelido = "Casinhas",
                     NIF = "123456789",
                     Morada = "Rua do Pombal",
-                    CodPostal = "2080-111",
-                    Localidade = "Almeirim",
-                    Contacto = "123456789",
+                    CodPostal = "2080-111 Almeirim",
                     Email = "jose@gmail.com",
                 };
 
@@ -123,24 +119,24 @@ namespace LojaOnline
             }
         }
 
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+        // Uncomment the following lines to enable logging in with third party login providers
+        //app.UseMicrosoftAccountAuthentication(
+        //    clientId: "",
+        //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+        //app.UseTwitterAuthentication(
+        //   consumerKey: "",
+        //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+        //app.UseFacebookAuthentication(
+        //   appId: "",
+        //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
-        }
+        //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+        //{
+        //    ClientId = "",
+        //    ClientSecret = ""
+        //});
+    }
     }
 

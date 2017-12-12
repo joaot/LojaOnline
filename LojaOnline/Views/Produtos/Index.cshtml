@@ -5,14 +5,18 @@
     ViewBag.Title = "Index";
 }
 
+@if (TempData["Sucesso"] != null)
+{
+    <p class="alert alert-success" id="Mensagem">@TempData["Sucesso"]</p>
+}
 
 <p>
-    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Create", "Produtos")'">Novo Produto</button>
+    <button type="button" style="margin-left:20px; margin-bottom:-56px" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Create", "Produtos")'">Novo Produto</button>
 </p>
 
 @using (Html.BeginForm("Index", "Produtos", FormMethod.Get))
 {
-    <p>
+    <p style="margin-left:460px">
         Pesquisar por nome: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Pesquisar" class="btn btn-default btn-primary" />
         @Html.ActionLink("Limpar", "Index", new { SearchString = "" }, new { @class = "btn btn-default" })
@@ -30,7 +34,7 @@
                         <th></th>
                         <th>@Html.ActionLink("Nome", "Index", new {sortOder = ViewBag.Nome, currentFilter = ViewBag.CurrentFilter })</th>
                         <th>@Html.ActionLink("Preço", "Index", new { sortOder = ViewBag.Preco, currentFilter = ViewBag.CurrentFilter })</th>
-                        <th>@Html.ActionLink("Stock", "Index", new { sortOder = ViewBag.Preco, currentFilter = ViewBag.CurrentFilter })</th>
+                        @*<th>@Html.ActionLink("Stock", "Index", new { sortOder = ViewBag.Preco, currentFilter = ViewBag.CurrentFilter })</th>*@
                     </tr>
                 </thead>
                 @foreach (var item in Model)
@@ -45,9 +49,6 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Preco)€
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Stock)
-                        </td>
 
                         <td>
                             @Html.ActionLink("Editar", "Edit", new { id = item.ProdutoID }) |
@@ -58,6 +59,7 @@
 
             </table>
             <br />
+           
             Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
 
             @Html.PagedListPager(Model, page => Url.Action("Index",

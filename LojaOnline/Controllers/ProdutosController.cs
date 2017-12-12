@@ -37,6 +37,7 @@ namespace LojaOnline.Controllers
             var produtos = from p in db.Produtos
                            select p;
 
+            //pesquisa na base de dados todos os protudos de acordo com o que foi pesquisado
             if (!String.IsNullOrEmpty(searchString))
             {
                 produtos = produtos.Where(p => p.Nome.Contains(searchString));
@@ -55,7 +56,10 @@ namespace LojaOnline.Controllers
                     break;
             }
 
+            //8 produtos por página
             int pageSize = 8;
+
+            //página a ser mostrada
             int pageNumber = (page ?? 1);
             return View(produtos.ToPagedList(pageNumber, pageSize));
         }
@@ -88,21 +92,32 @@ namespace LojaOnline.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProdutoID,Nome,Preco,Stock,Image,CategoriaFK")] Produto produtos, HttpPostedFileBase ImageUpload)
+        public ActionResult Create([Bind(Include = "ProdutoID,Nome,Preco,descricao,Imagem,CategoriaFK")] Produto produtos, HttpPostedFileBase ImageUpload)
         {
             if (ModelState.IsValid)
             {
+                //se a imagem não for null
                 if(ImageUpload != null && ImageUpload.ContentLength > 0)
                 {
-
+                    //define a directory da imagem
                     var uploadDir = "~/Imagens";
+
+                    //combina a directory com o nome do ficheiro e forma o caminho da imagem
                     var imagePath = Path.Combine(Server.MapPath(uploadDir), ImageUpload.FileName);
+
+                    //url da imagem
                     var imageUrl = Path.Combine(uploadDir, ImageUpload.FileName);
+
                     ImageUpload.SaveAs(imagePath);
+
+                    //guarda a url da imagem na base de dados
                     produtos.Imagem = imageUrl;
                 }
                 db.Produtos.Add(produtos);
                 db.SaveChanges();
+                //Envia mensagem para a view
+                TempData["Sucesso"] = "O tipo de produto foi criado com sucesso!";
+
                 return RedirectToAction("Index");
             }
 
@@ -132,13 +147,13 @@ namespace LojaOnline.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProdutoID,Nome,Preco,Stock,Image,CategoriaFK")] Produto produtos)
+        public ActionResult Edit([Bind(Include = "ProdutoID,Nome,Preco,Imagem,descricao,CategoriaFK")] Produto produtos, HttpPostedFileBase ImageUploa)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(produtos).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.CategoriaFK = new SelectList(db.Categorias, "CategoriaID", "Nome", produtos.CategoriaFK);
             return View(produtos);
@@ -192,6 +207,7 @@ namespace LojaOnline.Controllers
 
             return View(ListaProdutos);
         }
+
 
         protected override void Dispose(bool disposing)
         {

@@ -1,10 +1,12 @@
-﻿<div class="col-md-3">
+﻿@model IEnumerable<LojaOnline.Models.Categoria>
+
+<div class="col-md-3">
     @*cada link passa para o controller o nome da categoria*@
     <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" class="active"><a href="@Url.Action("ListaProdutos","Produtos" , new { name = "Processador"})">Processadores</a></li>
-        <li role="presentation" class="active"><a href="@Url.Action("ListaProdutos","Produtos" , new { name = "Caixas"})">Caixas</a></li>
-        <li role="presentation" class="active"><a href="@Url.Action("ListaProdutos","Produtos" , new { name = "Placas Gráficas"})">Placas Gráficas</a></li>
-        <li role="presentation" class="active"><a href="@Url.Action("ListaProdutos","Produtos" , new { name = "Ratos"})">Ratos</a></li>
-        <li role="presentation" class="active"><a href="@Url.Action("ListaProdutos","Produtos" , new { name = "Teclados"})">Teclados</a></li>
+        @foreach (var item in Model)
+        {
+            <li role="presentation" class="active"><a href="@Url.Action("ListaProdutos","Produtos" , new { name = @item.Nome})">@item.Nome</a></li>
+        }
+      
     </ul>
 </div>

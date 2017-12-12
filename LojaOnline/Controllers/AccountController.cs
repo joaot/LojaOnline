@@ -97,7 +97,7 @@ namespace LojaOnline.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "O endereço de correio eletrónico ou a palavra passe estão errados!");
                     return View(model);
             }
         }
@@ -160,36 +160,37 @@ namespace LojaOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    NomeProprio = model.NomeProprio,
-                    Apelido = model.Apelido,
-                    NIF = model.NIF,
-                    Morada = model.Morada,
-                    Localidade = model.Localidade,
-                    CodPostal = model.CodPostal,
-                    //Contacto = model.Contacto,
-                };
-                var result = await UserManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    var user = new ApplicationUser {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        NomeProprio = model.NomeProprio,
+                        Apelido = model.Apelido,
+                        NIF = model.NIF,
+                        Morada = model.Morada,
+                        CodPostal = model.CodPostal,
 
-                    //Adiciona um utilizador ao role Cliente
-                    //await UserManager.AddToRoleAsync(user.Id,"Cliente");
+                    };
+                    var result = await UserManager.CreateAsync(user, model.Password);
 
-                    return RedirectToAction("Index", "Home");
+                    if (result.Succeeded)
+                    {
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        //Envia mensagem para a view
+                        TempData["Sucesso"] = "A sua conta foi criada com sucesso! Séra redirecionado para a página de login..";
+
+                        return RedirectToAction("Register", "Account");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+                // If we got this far, something failed, redisplay form
+                return View(model);
+            
+            }
         //Get Edit
         public ActionResult EditarDados()
         {
@@ -205,16 +206,18 @@ namespace LojaOnline.Controllers
         //Post Edit
         [HttpPost]
        [ValidateAntiForgeryToken]
-        public ActionResult EditarDados([Bind(Include = "Id,NomeProprio,Apelido,NIF,Morada,CodPostal,Localidade,Contacto,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,UserName")] ApplicationUser users)
+        public ActionResult EditarDados([Bind(Include = "Id,NomeProprio,Apelido,NIF,Morada,CodPostal,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,UserName")] ApplicationUser users)
         {
             if (ModelState.IsValid)
             {
+                
                 db.Entry(users).State = EntityState.Modified;
 
-                db.SaveChanges();          
+                db.SaveChanges();
 
-            
-                return RedirectToAction("Index", "Home");
+                //Envia mensagem de sucesso para a view
+                TempData["Sucesso"] = "Os dados foram alterados com sucesso!";
+                return RedirectToAction("EditarDados", "Account");
             }
 
             return View(users);

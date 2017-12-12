@@ -19,17 +19,10 @@ namespace LojaOnline.Models
 
         public DateTime dataCompra { get; set; }
 
-        [ForeignKey("Status")]
-        public int StatusID { get; set; }
-
         //referencia a tabela produtos
         public virtual ICollection<Produto> Produtos { get; set; }
 
         //relaciona os users
         public virtual ApplicationUser Cliente { get; set; }
-
-        //referencia a tabela do estado do produto
-        public virtual Status Status { get; set; }
-
     }
 }

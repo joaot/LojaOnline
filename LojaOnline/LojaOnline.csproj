@@ -189,10 +189,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoriasController.cs" />
-    <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\GerirUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\ProdutoItemsController.cs" />
     <Compile Include="Controllers\ProdutosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -204,7 +205,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Produto.cs" />
-    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\ProdutoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -282,6 +283,13 @@
     <Content Include="Views\Compras\AdicionarProduto.cshtml" />
     <Content Include="Views\Compras\ListaCompras.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Shared\_ProdutosRecentes.cshtml" />
+    <Content Include="Views\ProdutoItems\Create.cshtml" />
+    <Content Include="Views\ProdutoItems\Delete.cshtml" />
+    <Content Include="Views\ProdutoItems\Details.cshtml" />
+    <Content Include="Views\ProdutoItems\Edit.cshtml" />
+    <Content Include="Views\ProdutoItems\Index.cshtml" />
+    <Content Include="Views\GerirUsers\ApagaUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

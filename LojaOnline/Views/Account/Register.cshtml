@@ -3,83 +3,83 @@
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
+
+    //manda um alerta se os dados tiverem sido alterados com sucesso
+    if (TempData["Sucesso"] != null)
+    {
+        <p class="alert alert-success" id="Mensagem">@TempData["Sucesso"]</p>
+        //https://stackoverflow.com/questions/6308132/automatically-move-user-after-a-certain-period-of-time-in-a-view
+        //Se a conta tiver sido criada com sucesso, após 5 segundos é redirecionado para a página de login
+        <META HTTP-EQUIV="Refresh" CONTENT="5;URL=@(Url.Action("Login", "Account"))">
+    }
     <h4>Criar nova conta</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <hr  />
+
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Email)
+        <div class="col-md-4">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" , maxlength = 50, autofocus = "autofocus", placeholder = "Exemplo: joao.teixeira.15@gmail.com" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
         @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Password)
+        <div class="col-md-4">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", maxlength = 20, placeholder = "Exemplo: ABcd123#" })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
         @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+        <div class="col-md-4">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", maxlength = 20, placeholder = "Exemplo: ABcd123#" })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
         @Html.LabelFor(m => m.NomeProprio, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NomeProprio, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.NomeProprio)
+        <div class="col-md-4">
+            @Html.TextBoxFor(m => m.NomeProprio, new { @class = "form-control", maxlength = 30, placeholder = "Exemplo: João" })
+            @Html.ValidationMessageFor(model => model.NomeProprio, "", new { @class = "text-danger" })
         </div>
     </div>
             <div class="form-group">
         @Html.LabelFor(m => m.Apelido, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Apelido, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Apelido)
+        <div class="col-md-4">
+            @Html.TextBoxFor(m => m.Apelido, new { @class = "form-control", maxlength = 30, placeholder = "Exemplo: Teixeira" })
+            @Html.ValidationMessageFor(model => model.Apelido, "", new { @class = "text-danger" })
         </div>
     </div>
         <div class="form-group">
             @Html.LabelFor(m => m.NIF, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.NIF, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.NIF)
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.NIF, new { @class = "form-control", maxlength = 9, placeholder = "Exemplo: 123456789" })
+                @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.Morada, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Morada, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Morada)
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.Morada, new { @class = "form-control", maxlength = 40, placeholder = "Exemplo: Rua do Pombal nº74" })
+                @Html.ValidationMessageFor(model => model.Morada, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.CodPostal, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.CodPostal, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CodPostal)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Localidade, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Localidade, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Localidade)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Contacto, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Contacto, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Contacto)
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.CodPostal, new { @class = "form-control", maxlength = 30, placeholder = "Exemplo: 0000-000 Localidade" })
+                @Html.ValidationMessageFor(model => model.CodPostal, "", new { @class = "text-danger" })
             </div>
         </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-primary" value="Criar conta" />
         </div>
+
+      
     </div>
 }
 

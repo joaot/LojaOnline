@@ -1,0 +1,18 @@
+﻿@model IEnumerable<LojaOnline.Models.Produto>
+
+@foreach (var item in Model)
+{
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            <img src="@Url.Content(item.Imagem)" alt="" />
+            <div class="caption">
+                <h4 class="pull-right">@item.Preco€</h4>
+                <h4>
+                    <a>@item.Nome</a>
+                </h4>
+                <p><button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AdicionarProduto", "Compras",new {id = 1 } )'">Comprar</button></p>
+            </div>
+        </div>
+    </div>
+}
+
