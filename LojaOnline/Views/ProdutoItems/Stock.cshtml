@@ -1,0 +1,36 @@
+﻿@model IEnumerable<LojaOnline.ViewModels.stock>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>
+                           Nome do produto
+                        </th>
+                        <th>
+                            Stock
+                        </th>
+                    </tr>
+                </thead>
+
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.stockCount)
+                        </td>
+                    </tr>
+                }
+            </table>
+            <br />
+
+        </div>
+    </div>
+</div>

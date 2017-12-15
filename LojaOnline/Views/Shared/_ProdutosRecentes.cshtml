@@ -6,11 +6,14 @@
         <div class="thumbnail">
             <img src="@Url.Content(item.Imagem)" alt="" />
             <div class="caption">
-                <h4 class="pull-right">@item.Preco€</h4>
-                <h4>
-                    <a>@item.Nome</a>
+                <h4 style="text-align:center">@item.Nome</h4>
+                <h4 style="text-align:center">
+                    @item.Preco€
                 </h4>
-                <p><button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AdicionarProduto", "Compras",new {id = 1 } )'">Comprar</button></p>
+                <h4></h4>
+                <p>
+                    <button type="button" class="btn btn-primary btn-sm" style="margin-left:85px" onclick="location.href='@Url.Action("AdicionarProduto", "Compras",new {id = item.ProdutoID } )'">Comprar</button>
+                </p>
             </div>
         </div>
     </div>

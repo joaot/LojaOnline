@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LojaOnline.Models;
+using LojaOnline.ViewModels;
 
 namespace LojaOnline.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProdutoItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -129,6 +131,25 @@ namespace LojaOnline.Controllers
             db.ProdutoItems.Remove(produtoItem);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        //método que conta quantos items existem por produto
+        public ActionResult Stock()
+        {
+
+            //agrupa os produtos pelo nome e faz a contagem dos mesmos
+            var stock = from s in db.ProdutoItems
+                        group s by s.Produto.Nome into produto
+                        select new stock
+                        {
+                            //nome do produto
+                            nome = produto.Key,
+                            //número de produtos
+                            stockCount = produto.Count()
+                        };
+
+            return View(stock.ToList());
         }
 
         protected override void Dispose(bool disposing)

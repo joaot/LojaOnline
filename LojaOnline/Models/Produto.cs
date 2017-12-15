@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,17 +18,11 @@ namespace LojaOnline.Models
         public string Nome { get; set; }
 
 
-
         [Required(ErrorMessage = "Preenchimento obrigatório")]
         [Display(Name = "Preço")]
-        public int Preco  { get; set; }
+        public decimal Preco  { get; set; }
 
-        [Required(ErrorMessage = "Preenchimento obrigatório")]
-        [RegularExpression("^[a-zA-Z0-9ºçÇÁÀÃÂÉÍÓÕÔÚàáéíóõú.&', -]*$", ErrorMessage = "A descrição do produto apenas permite caracteres de A a Z e algarismos de 0 a 9.")]
-        [StringLength(150, ErrorMessage = "A descrição do produto não deve exceder os 150 caracteres.")]
-        [Display(Name = "Descrição")]
-        public string descricao { get; set; }
-
+        [DataType(DataType.ImageUrl)]
         public string Imagem { get; set; }
 
         //relaciona o objeto PRODUTO com um objeto CATEGORIA
@@ -40,6 +35,9 @@ namespace LojaOnline.Models
 
         //referencia a tabela ProdutoItem
         public ICollection<ProdutoItem> Items { get; set; }
+
+        //referencia a tabela Compra
+        public virtual ICollection<Compra> Compras { get; set; }
 
     }
 }

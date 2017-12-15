@@ -10,6 +10,7 @@ using LojaOnline.Models;
 
 namespace LojaOnline.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

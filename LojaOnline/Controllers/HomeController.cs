@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using LojaOnline.ViewModels;
 using System.Web.Mvc;
 
 namespace LojaOnline.Controllers
@@ -21,9 +22,16 @@ namespace LojaOnline.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            var stock = from s in db.ProdutoItems
+                        group s by s.Produto.Nome into produto
+                        select new stock
+                        {
+                            nome = produto.Key,
+                            stockCount = produto.Count()
+                        };
 
-            return View();
+
+            return View(stock.ToList());
         }
 
         public ActionResult Contact()
@@ -38,6 +46,20 @@ namespace LojaOnline.Controllers
         public ActionResult Menu()
         {
             return View(db.Categorias.ToList());
+        }
+
+        public ActionResult Stock()
+        {
+            var stock = from s in db.ProdutoItems
+                        group s by s.Produto.Nome into produto
+                        select new stock
+                        {
+                            nome = produto.Key,
+                            stockCount = produto.Count()
+                        };
+
+
+            return View(stock.ToList());
         }
     }
 }

@@ -7,7 +7,10 @@
     //manda um alerta se os dados tiverem sido alterados com sucesso
     if (TempData["Sucesso"] != null)
     {
-        <p class="alert alert-success" id="Mensagem">@TempData["Sucesso"]</p>
+        <div class="alert alert-success alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" id="Mensagem" aria-label="close">&times;</a>
+            @TempData["Sucesso"]
+        </div>
         //https://stackoverflow.com/questions/6308132/automatically-move-user-after-a-certain-period-of-time-in-a-view
         //Se a conta tiver sido criada com sucesso, após 5 segundos é redirecionado para a página de login
         <META HTTP-EQUIV="Refresh" CONTENT="5;URL=@(Url.Action("Login", "Account"))">

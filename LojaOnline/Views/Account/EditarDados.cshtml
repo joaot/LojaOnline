@@ -14,7 +14,10 @@
     //manda um alerta se os dados tiverem sido alterados com sucesso
     if (TempData["Sucesso"] != null)
     {
-        <p class="alert alert-success" id="Mensagem">@TempData["Sucesso"]</p>
+        <div class="alert alert-success alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" id="Mensagem" aria-label="close">&times;</a>
+            @TempData["Sucesso"]
+        </div>
     }
 
     <div class="form-horizontal">

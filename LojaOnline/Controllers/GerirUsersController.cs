@@ -17,7 +17,7 @@ using PagedList;
 
 namespace LojaOnline.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class GerirUsersController : Controller
     {
         public UserManager<ApplicationUser> UserManager { get; private set; }

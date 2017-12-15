@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using LojaOnline.Models;
 using System.IO;
 using PagedList;
+using LojaOnline.ViewModels;
 
 namespace LojaOnline.Controllers
 {
@@ -16,6 +17,7 @@ namespace LojaOnline.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize(Roles = "Admin")]
         // GET: Produtos
         public ViewResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
@@ -64,6 +66,7 @@ namespace LojaOnline.Controllers
             return View(produtos.ToPagedList(pageNumber, pageSize));
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Produtos/Details/5
         public ActionResult Details(int? id)
         {
@@ -80,6 +83,7 @@ namespace LojaOnline.Controllers
             return View(produtos);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Produtos/Create
         public ActionResult Create()
         {
@@ -87,12 +91,13 @@ namespace LojaOnline.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Produtos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProdutoID,Nome,Preco,descricao,Imagem,CategoriaFK")] Produto produtos, HttpPostedFileBase ImageUpload)
+        public ActionResult Create([Bind(Include = "ProdutoID,Nome,Preco,Imagem,CategoriaFK")] Produto produtos, HttpPostedFileBase ImageUpload)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +117,11 @@ namespace LojaOnline.Controllers
 
                     //guarda a url da imagem na base de dados
                     produtos.Imagem = imageUrl;
+                }else
+                {
+                    produtos.Imagem = "~/Imagens/empty.jpg";
                 }
+
                 db.Produtos.Add(produtos);
                 db.SaveChanges();
                 //Envia mensagem para a view
@@ -126,14 +135,19 @@ namespace LojaOnline.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         // GET: Produtos/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, Produto produtos, HttpPostedFileBase ImageUpload)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produto produtos = db.Produtos.Find(id);
+            if (ImageUpload == null)
+            {
+                produtos.Imagem = "~/Imagens/empty.jpg";
+            }
+            produtos = db.Produtos.Find(id);
             if (produtos == null)
             {
                 return HttpNotFound();
@@ -142,12 +156,13 @@ namespace LojaOnline.Controllers
             return View(produtos);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Produtos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProdutoID,Nome,Preco,Imagem,descricao,CategoriaFK")] Produto produtos, HttpPostedFileBase ImageUploa)
+        public ActionResult Edit([Bind(Include = "ProdutoID,Nome,Preco,descricao,CategoriaFK")] Produto produtos, HttpPostedFileBase ImageUploa)
         {
             if (ModelState.IsValid)
             {
@@ -159,6 +174,7 @@ namespace LojaOnline.Controllers
             return View(produtos);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Produtos/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -174,6 +190,7 @@ namespace LojaOnline.Controllers
             return View(produtos);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Produtos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -185,27 +202,24 @@ namespace LojaOnline.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Descricao(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Produto produtos = db.Produtos.Find(id);
-
-            if (produtos == null)
-            {
-                return HttpNotFound();
-            }
-            return View(produtos);
-        }
 
         //recebe a categoria do menu e lista todos os produtos da mesma
         public ActionResult ListaProdutos(string name)
         {
+            stock stock = new stock();
+
+            if (stock.stockCount > 0)
+            {               
+                ViewBag.Disponivel = "Produto disponivel";
+            }else
+            {
+                ViewBag.Disponivel = "Produto indisponivel";
+            }
+            
+
             var ListaProdutos = db.Produtos.Where(c => c.Categoria.Nome == name);
 
-            return View(ListaProdutos);
+            return View(ListaProdutos.OrderByDescending(c => c.Preco));
         }
 
 

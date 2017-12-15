@@ -17,12 +17,18 @@ namespace LojaOnline.Models
 
         public int compraID { get; set; }
 
-        public DateTime dataCompra { get; set; }
 
         //referencia a tabela produtos
         public virtual ICollection<Produto> Produtos { get; set; }
 
+
+        [ForeignKey("Produtos")]
+        public int produtoID { get; set; }
+
         //relaciona os users
         public virtual ApplicationUser Cliente { get; set; }
+
+        [ForeignKey("Cliente")]
+        public string userID { get; set; }
     }
 }

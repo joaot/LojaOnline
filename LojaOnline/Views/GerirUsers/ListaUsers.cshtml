@@ -10,7 +10,10 @@
   
     @if (TempData["Sucesso"] != null)
     {
-        <p class="alert alert-success" id="Mensagem">@TempData["Sucesso"]</p>
+        <div class="alert alert-success alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" id="Mensagem" aria-label="close">&times;</a>
+            @TempData["Sucesso"]
+        </div>
     }
 
 @*<p>
@@ -71,8 +74,7 @@
                                 @Html.DisplayFor(modelItem => item.CodPostal)
                             </td>
                             <td>
-                                @Html.ActionLink("Editar", "Editar", new { id = item.Id}) |
-                                @Html.ActionLink("Apagar", "ApagaUser", new { id = item.Id})
+                                @Html.ActionLink("Editar", "Editar", new { id = item.Id})                              
                             </td>
                         </tr>
                     }

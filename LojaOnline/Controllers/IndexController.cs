@@ -6,14 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 
 
-//https://stackoverflow.com/questions/13225315/pass-data-to-layout-that-are-common-to-all-pages
+
 namespace LojaOnline.Controllers
 {
     public class IndexController : Controller
     {
 
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        //https://stackoverflow.com/questions/13225315/pass-data-to-layout-that-are-common-to-all-pages
         //método que lista todas as categorias para serem usadas no menu
         [ChildActionOnly]
         public ActionResult Menu()
@@ -35,7 +35,7 @@ namespace LojaOnline.Controllers
 
             //Lista os últimos 6 produtos adicionados na base de dados
             var model = (from p in db.Produtos                      
-                        select p).Take(6).ToList(); ;
+                        select p).Take(9).ToList(); ;
 
             //envia um model para ser usado na partial view
             return PartialView("~/Views/Shared/_ProdutosRecentes.cshtml", model);
